@@ -23,15 +23,16 @@
                 <p><b>Latest updates about coronavirus situation in Europe</b></p>
                 <form action="Default.aspx" method="get">
                     <%
-                        String[] cities = { "Lahti", "Helsinki", "Tampere", "Turku", "Kuopio" };
+                        String[] countries = { "Finland", "Germany", "Sweden", "England", "Norway" };
                          %>
                     <div class="row">
                         <div class="col-5">
                             <select class="custom-select my-1 mr-sm-2 shadow border-blue" id="inlineFormCustomSelectPref" name="country">
                                 <option value="" selected>Choose Country...</option>
                                 <%
-                                    for(int i = 0; i < cities.Length; i++){
-                                        Response.Write("<option value=\""+ cities[i] +"\">"+ cities[i] +"</option>");
+                                    for (int i = 0; i < countries.Length; i++)
+                                    {
+                                        Response.Write("<option value=\"" + countries[i] + "\">" + countries[i] + "</option>");
                                     }
                                  %>
                             </select>

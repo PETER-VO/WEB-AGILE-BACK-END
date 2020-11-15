@@ -11,29 +11,34 @@
 </head>
 <body>
      <%
-        String country = "Helsinki";
+        String country = "Finland";
         String date = "2020-11-06";
         String[] numbers;
         numbers = new String[6] {"123","21","3","+21","12","+11"};
         if(Request.QueryString["country"] != null){
             country = Request.QueryString["country"];
-            if (country == "Lahti") {
+            if (country == "Finland") {
                 numbers = new String[6] { "321", "12", "5", "+33", "11", "+33" };
             }
-            else if (country == "Tampere") {
+            else if (country == "Germany") {
                 numbers = new String[6] { "721", "45", "5", "+13", "21", "+44" };
             }
-            else if (country == "Turku")
+            else if (country == "Norway")
             {
                 numbers = new String[6] { "21", "5", "1", "+1", "2", "+3" };
             }
-            else if (country == "Kuopio")
+            else if (country == "Sweden")
             {
                 numbers = new String[6] { "72", "5", "8", "+15", "21", "+14" };
             }
         }
         if (Request.QueryString["date"] != null) {
             date = Request.QueryString["date"];
+        }
+        if (Request.QueryString["signal"] != null) {
+            for (int i = 0; i < numbers.Length; i++) {
+                numbers[i] += 2;
+            }
         }
         %>
     <div class="createdContainer">
@@ -51,15 +56,18 @@
                         <b>Latest updates about coronavirus situation in Europe</b> 
                     </p>
                     <form action="Default.aspx" method="get">
-                       
                         <div class="row mb-4">
                             <div class="col-5">
                                 <div class="form-group">
-                                    <input type="text" value="<%=country%>"  class="form-control shadow border-blue font-weight-bold" id="exampleInputEmail1" aria-describedby="emailHelp" value="FinLand" disabled>
+                                    <input type="text" value="<%=country%>"  name="country" class="form-control shadow border-blue font-weight-bold" id="exampleInputEmail1" aria-describedby="emailHelp" >
                                   </div>
                                   <div class="form-group">
-                                    <input type="text" class="form-control shadow border-blue font-weight-bold" id="exampleInputPassword1" value="<%=date%>" disabled>
+                                    <input type="text" name="date" value="<%=date%>" class="form-control shadow border-blue font-weight-bold" id="exampleInputPassword1" >
                                   </div>
+                                <input type="hidden" name="signal" value="refersh"/>
+                            </div>
+                             <div class="col-3">
+                                <button type="submit" class="btn btn-lg btn-primary search-btn shadow border-blue"><b>Refesh!</b> <i class="fa fa-refresh" aria-hidden="true"></i></button>
                             </div>
                         </div>
                     </form>
