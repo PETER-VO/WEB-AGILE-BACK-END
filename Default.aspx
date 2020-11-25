@@ -1,7 +1,9 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="WebApplication1._Default" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<%@ Import Namespace="System.IO" %>
+<%@ Import Namespace="System.Net"%>
+<%@ Import Namespace="System.Collections.Generic"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Detail Information</title>
@@ -11,36 +13,69 @@
 </head>
 <body>
      <%
-        String country = "Finland";
-        String date = "2020-11-06";
-        String[] numbers;
-        numbers = new String[6] {"123","21","3","+21","12","+11"};
-        if(Request.QueryString["country"] != null){
-            country = Request.QueryString["country"];
-            if (country == "Finland") {
-                numbers = new String[6] { "321", "12", "5", "+33", "11", "+33" };
-            }
-            else if (country == "Germany") {
-                numbers = new String[6] { "721", "45", "5", "+13", "21", "+44" };
-            }
-            else if (country == "Norway")
-            {
-                numbers = new String[6] { "21", "5", "1", "+1", "2", "+3" };
-            }
-            else if (country == "Sweden")
-            {
-                numbers = new String[6] { "72", "5", "8", "+15", "21", "+14" };
-            }
+         
+    //StringWriter writer = new StringWriter();
+    //WebRequest myRequest = WebRequest.Create(@"https://moodle.lut.fi/pluginfile.php/355774/mod_resource/content/1/opendata.ecdc.europa.eu.xml");
+    //WebResponse response = myRequest.GetResponse();
+    //// Get the stream containing content returned by the server.
+    //Stream dataStream = response.GetResponseStream();
+    //// Open the stream using a StreamReader for easy access.
+    //StreamReader reader = new StreamReader(dataStream);
+    //// Read the content.
+    //string responseFromServer = reader.ReadToEnd();
+    string path = Server.MapPath("data.txt");
+    string[] myTextArray = File.ReadAllText(path).Split(' ');
+    
+    String country = "Finland";
+    String date = "11/11/2020";
+    String[] numbers;
+    numbers = new String[6] { "123", "21", "3", "21", "12", "11" };
+    
+    int i = 0;
+    if (Request.QueryString["country"] != null && Request.QueryString["country"] != "")
+    {
+        country = Request.QueryString["country"];
+    }
+    if (Request.QueryString["date"] != null && Request.QueryString["date"] != "" && Request.QueryString["signal"] != "refersh")
+    {
+        string[] dateArray = Request.QueryString["date"].Split('-');
+        date = dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0];
+    }
+
+    while (!myTextArray[i].Contains(country))
+        i++;
+        
+    for (; i < myTextArray.Length; i += 6) 
+    {
+        if (myTextArray[i - 6].Contains(date))
+        {
+            //Case
+            numbers[0] = myTextArray[i - 2];
+            
+            //Deaths
+            numbers[1] = myTextArray[i - 1];
+            
+            // Recovered
+            int number = Int32.Parse(myTextArray[i - 2]) / 3;
+            numbers[2] = number.ToString();
+
+            // New Case compared to Last Week
+            number = Int32.Parse(myTextArray[i - 2]) / 2;
+            numbers[3] = number.ToString();
+
+            // Deaths compared to Last Week
+            number = Int32.Parse(myTextArray[i - 1]) / 2;
+            numbers[4] = number.ToString();
+
+            // Recovery compared to Last Week
+            number = Int32.Parse(myTextArray[i - 2]) / 4;
+            numbers[5] = number.ToString();
+            
+            break;
         }
-        if (Request.QueryString["date"] != null) {
-            date = Request.QueryString["date"];
-        }
-        if (Request.QueryString["signal"] != null) {
-            for (int i = 0; i < numbers.Length; i++) {
-                numbers[i] += 2;
-            }
-        }
-        %>
+    }
+    
+%>
     <div class="createdContainer">
             <div class="row">
                 <div class="col-9 ml-5">

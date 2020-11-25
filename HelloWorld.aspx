@@ -1,7 +1,9 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="HelloWorld.aspx.cs" Inherits="WebApplication1.HelloWorld" %>
 
 <!DOCTYPE html>
-
+<%@ Import Namespace="System.IO" %>
+<%@ Import Namespace="System.Net"%>
+<%@ Import Namespace="System.Collections.Generic"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Home Page</title>
@@ -9,6 +11,9 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div>
+
+</div>
     <div class="createdContainer">
         <div class="row">
             <div class="col-9 ml-5">
@@ -30,9 +35,9 @@
                             <select class="custom-select my-1 mr-sm-2 shadow border-blue" id="inlineFormCustomSelectPref" name="country">
                                 <option value="" selected>Choose Country...</option>
                                 <%
-                                    for (int i = 0; i < countries.Length; i++)
+                                    for (int j = 0; j < countries.Length; j++)
                                     {
-                                        Response.Write("<option value=\"" + countries[i] + "\">" + countries[i] + "</option>");
+                                        Response.Write("<option value=\"" + countries[j] + "\">" + countries[j] + "</option>");
                                     }
                                  %>
                             </select>
