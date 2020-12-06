@@ -28,7 +28,7 @@
                 <p><b>Latest updates about coronavirus situation in Europe</b></p>
                 <form action="Default.aspx" method="get">
                     <%
-                            String[] countries = {"Russia", "Germany", "United Kingdom","France","Italy","Spain","Ukraine","Poland","Romania","Netherlands","Belgium",
+                            String[] countries = {"Russia", "Germany", "United_Kingdom","France","Italy","Spain","Ukraine","Poland","Romania","Netherlands","Belgium",
                         "Czechia", "Greece","Portugal","Sweden","Hungary","Belarus","Austria","Serbia","Switzerland","Bulgaria","Denmark","Finland","Slovakia","Norway","Ireland",
                         "Croatia","Moldova","Bosnia","Albania","Lithuania","North_Macedonia","Slovenia","Latvia","Estonia","Montenegro","Luxembourg","Malta","Iceland","Andorra","Monaco",
                         "Liechtenstein","San_Marino","Holy_See" };
