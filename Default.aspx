@@ -51,8 +51,6 @@
          {
              if (myTextArray[n - 6].Contains(date))
              {
-                 //Case
-                 Response.Write("country: " + myTextArray[n] + " date :" + myTextArray[n - 6]);
                  string temp = myTextArray[n - 2];
                  int length = temp.Length;
                  for (int k = 0; k < length; k++)

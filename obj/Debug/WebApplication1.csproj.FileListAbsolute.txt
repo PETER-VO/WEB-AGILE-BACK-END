@@ -4,7 +4,4 @@ E:\C\CSharp\WebApplication1\WebApplication1\obj\Debug\WebApplication1.dll
 E:\C\CSharp\WebApplication1\WebApplication1\obj\Debug\WebApplication1.pdb
 E:\C\CSharp\WebApplication1\WebApplication1\bin\Newtonsoft.Json.dll
 E:\C\CSharp\WebApplication1\WebApplication1\bin\Newtonsoft.Json.xml
-E:\C\CSharp\WebApplication1\WebApplication1\bin\WebApplication1.dll.config
-E:\C\CSharp\WebApplication1\WebApplication1\obj\Debug\WebApplication1.csprojAssemblyReference.cache
-E:\C\CSharp\WebApplication1\WebApplication1\obj\Debug\WebApplication1.csproj.CoreCompileInputs.cache
-E:\C\CSharp\WebApplication1\WebApplication1\obj\Debug\WebApplication1.csproj.CopyComplete
+E:\C\CSharp\WebApplication1\WebApplication1\obj\Debug\WebApplication1.csprojResolveAssemblyReference.cache
