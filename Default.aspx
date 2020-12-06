@@ -13,69 +13,109 @@
 </head>
 <body>
      <%
-         
-    //StringWriter writer = new StringWriter();
-    //WebRequest myRequest = WebRequest.Create(@"https://moodle.lut.fi/pluginfile.php/355774/mod_resource/content/1/opendata.ecdc.europa.eu.xml");
-    //WebResponse response = myRequest.GetResponse();
-    //// Get the stream containing content returned by the server.
-    //Stream dataStream = response.GetResponseStream();
-    //// Open the stream using a StreamReader for easy access.
-    //StreamReader reader = new StreamReader(dataStream);
-    //// Read the content.
-    //string responseFromServer = reader.ReadToEnd();
-    string path = Server.MapPath("data.txt");
-    string[] myTextArray = File.ReadAllText(path).Split(' ');
-    
-    String country = "Finland";
-    String date = "11/11/2020";
-    String[] numbers;
-    numbers = new String[6] { "123", "21", "3", "21", "12", "11" };
-    
-    int i = 0;
-    if (Request.QueryString["country"] != null && Request.QueryString["country"] != "")
-    {
-        country = Request.QueryString["country"];
-    }
-    if (Request.QueryString["date"] != null && Request.QueryString["date"] != "" && Request.QueryString["signal"] != "refersh")
-    {
-        string[] dateArray = Request.QueryString["date"].Split('-');
-        date = dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0];
-    }
 
-    while (!myTextArray[i].Contains(country))
-        i++;
-        
-    for (; i < myTextArray.Length; i += 6) 
-    {
-        if (myTextArray[i - 6].Contains(date))
-        {
-            //Case
-            numbers[0] = myTextArray[i - 2];
-            
-            //Deaths
-            numbers[1] = myTextArray[i - 1];
-            
-            // Recovered
-            int number = Int32.Parse(myTextArray[i - 2]) / 3;
-            numbers[2] = number.ToString();
+         //StringWriter writer = new StringWriter();
+         //WebRequest myRequest = WebRequest.Create(@"https://moodle.lut.fi/pluginfile.php/355774/mod_resource/content/1/opendata.ecdc.europa.eu.xml");
+         //WebResponse response = myRequest.GetResponse();
+         //// Get the stream containing content returned by the server.
+         //Stream dataStream = response.GetResponseStream();
+         //// Open the stream using a StreamReader for easy access.
+         //StreamReader reader = new StreamReader(dataStream);
+         //// Read the content.
+         //string responseFromServer = reader.ReadToEnd();
+         string path = Server.MapPath("data.txt");
+         string[] myTextArray = File.ReadAllText(path).Split('\n');
 
-            // New Case compared to Last Week
-            number = Int32.Parse(myTextArray[i - 2]) / 2;
-            numbers[3] = number.ToString();
+         String country = "Finland";
+         String date = "04/12/2020";
+         String[] numbers;
+         numbers = new String[6] { "0", "0", "0", "0", "0", "0" };
 
-            // Deaths compared to Last Week
-            number = Int32.Parse(myTextArray[i - 1]) / 2;
-            numbers[4] = number.ToString();
+         int i = 0;
+         if (Request.QueryString["country"] != null && Request.QueryString["country"] != "")
+         {
+             country = Request.QueryString["country"];
+         }
+         if (Request.QueryString["date"] != null && Request.QueryString["date"] != "" && Request.QueryString["signal"] != "refersh")
+         {
+             string[] dateArray = Request.QueryString["date"].Split('-');
+             date = dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0];
+         }
 
-            // Recovery compared to Last Week
-            number = Int32.Parse(myTextArray[i - 2]) / 4;
-            numbers[5] = number.ToString();
-            
-            break;
-        }
-    }
-    
-%>
+         while (!myTextArray[i].Contains(country))
+             i++;
+         string cases = "";
+         string deaths = "";
+
+         for (int n = i; n < myTextArray.Length; n++)
+         {
+             if (myTextArray[n - 6].Contains(date))
+             {
+                 //Case
+                 Response.Write("country: " + myTextArray[n] + " date :" + myTextArray[n - 6]);
+                 string temp = myTextArray[n - 2];
+                 int length = temp.Length;
+                 for (int k = 0; k < length; k++)
+                 {
+                     bool check = false;
+                     if (temp[k] == '>')
+                     {
+                         for (int h = k + 1; h < length; h++)
+                         {
+                             if (temp[h] == '<')
+                             {
+                                 check = true;
+                                 break;
+                             }
+                             cases += temp[h] + "";
+                         }
+                     }
+                     if (check) break;
+                 }
+
+                 numbers[0] = cases;
+                 //Deaths
+                 temp = myTextArray[n - 1];
+                 length = temp.Length;
+                 for (int k = 0; k < length; k++)
+                 {
+                     bool check = false;
+                     if (temp[k] == '>')
+                     {
+                         for (int h = k + 1; h < length; h++)
+                         {
+                             if (temp[h] == '<')
+                             {
+                                 check = true;
+                                 break;
+                             }
+                             deaths += temp[h] + "";
+                         }
+                     }
+                     if (check) break;
+                 }
+                 numbers[1] = deaths;
+
+                 // Recovered
+                 int number = Int32.Parse(numbers[0]) / 3;
+                 numbers[2] = number.ToString();
+
+                 //// New Case compared to Last Week
+                 number = Int32.Parse(numbers[0]) / 2;
+                 numbers[3] = number.ToString();
+
+                 //// Deaths compared to Last Week
+                 number = Int32.Parse(numbers[1]) / 2;
+                 numbers[4] = number.ToString();
+
+                 //// Recovery compared to Last Week
+                 number = Int32.Parse(numbers[0]) / 4;
+                 numbers[5] = number.ToString();
+
+                 break;
+             }
+         }
+     %>
     <div class="createdContainer">
             <div class="row">
                 <div class="col-9 ml-5">
